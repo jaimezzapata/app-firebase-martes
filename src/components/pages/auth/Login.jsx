@@ -1,8 +1,17 @@
 import React from "react";
 import "./Login.css";
+import { initFirestore } from "../../config/firebaseConfig";
+import { collection } from "firebase/firestore";
 
 const Login = () => {
 
+  function getUsuarios() {
+    let resultado = collection(initFirestore, "usuarios");
+    console.log(resultado);
+  }
+  getUsuarios()
+
+  console.log(initFirestore);
   return (
     <div className="login-page">
       <div className="form">
