@@ -4,12 +4,11 @@ import { initFirestore } from "../../config/firebaseConfig";
 import { collection } from "firebase/firestore";
 
 const Login = () => {
-
   function getUsuarios() {
     let resultado = collection(initFirestore, "usuarios");
     console.log(resultado);
   }
-  getUsuarios()
+  getUsuarios();
 
   console.log(initFirestore);
   return (
