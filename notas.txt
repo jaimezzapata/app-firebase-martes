@@ -1,0 +1,6 @@
+Métodos de los arreglos
+-> Map = Recorreo un arreglo y devuelve uno nuevo
+-> Find = Recorre un arreglo y retorna un elemento que cumpla con una condiciona dada
+-> Filter = Recorre un arreglo y retorna todos los elementos que cumplan con una condiciona dada
+-> Some = Recorre un arreglo y retorna un true o false si cumple con una condición
+-> ForEach = Lo mismo que el map, pero no retorna nada
