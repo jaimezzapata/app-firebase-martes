@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Login.css";
 import { initFirestore } from "../../config/firebaseConfig";
-import { collection } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 const Login = () => {
-  function getUsuarios() {
+  const [usuarios, setUsuarios] = useState()
+  async function getUsuarios() {
     let resultado = collection(initFirestore, "usuarios");
-    console.log(resultado);
+    let data = await getDocs(resultado)
+    /* Si es un arreglo, puedo iterarlo con los métodos de JS
+    map */
+    console.log(data.docs.map((doc)=>({...doc.data()})));
   }
   getUsuarios();
 

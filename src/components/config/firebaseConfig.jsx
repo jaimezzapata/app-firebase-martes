@@ -7,7 +7,7 @@ const firebaseConfig = {
   projectId: "app-firebase-martes-jzv",
   storageBucket: "app-firebase-martes-jzv.appspot.com",
   messagingSenderId: "1085568341646",
-  appId: "1:1085568341646:web:69dec805f76df9c3591bdf",
+  appId: "1:1085568341646:web:69dec805f76df9c3591bdf"
 };
 const app = initializeApp(firebaseConfig);
 export const initFirestore = getFirestore(app);
