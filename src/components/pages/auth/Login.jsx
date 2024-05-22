@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import "./Login.css";
 import { initFirestore } from "../../config/firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const [usuarios, setUsuarios] = useState();
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
+  let redireccion = useNavigate()
 
   async function getUsuarios() {
     let resultado = collection(initFirestore, "usuarios");
@@ -27,9 +30,18 @@ const Login = () => {
   };
   const iniciarSesion = () => {
     if (buscarUsuario()) {
-      console.log("Bievenido usuario");
+      Swal.fire({
+        title: "Bievenido",
+        text: "Será redireccionado al panel principal",
+        icon: "success"
+      });
+      redireccion('/home')
     } else {
-      console.log("Error de credenciales");
+      Swal.fire({
+        title: "Error",
+        text: "Usuario y/o contraseña incorrecto",
+        icon: "error"
+      });
     }
   };
   return (

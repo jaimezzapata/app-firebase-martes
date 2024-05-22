@@ -6,13 +6,13 @@ const Header = () => {
     <header className="side-nav">
       <ul>
         <li>
-          <a href="#">Home</a>
+          <Link to="/home">Home</Link>
         </li>
         <li>
-          <a href="#">About</a>
+          <Link to="/listado-usuarios">Usuarios</Link>
         </li>
         <li>
-          <a href="#">Services</a>
+          <Link to="#">Services</Link>
         </li>
         <li>
           <Link to="/">Cerrar Sesion</Link>
