@@ -23,8 +23,8 @@ const ListadoUsuarios = () => {
     getUsuarios();
   }, []);
 
-  const eliminarUsuario = (usuario) => {
-    console.log("Eliminando el usuario " + usuario);
+  const eliminarUsuario = (id) => {
+    console.log("Eliminando el usuario " + id);
   };
 
   return (
@@ -39,7 +39,7 @@ const ListadoUsuarios = () => {
               <p>Correo: {usuario.email}</p>
             </section>
             <div>
-              <button onClick={() => eliminarUsuario(usuario.name)}>
+              <button onClick={() => eliminarUsuario(usuario.id)}>
                 Eliminar
               </button>
               <Link>Editar</Link>
