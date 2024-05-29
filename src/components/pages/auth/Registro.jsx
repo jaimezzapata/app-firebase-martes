@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Registro.css";
 import { initFirestore } from "../../config/firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -11,6 +11,7 @@ const Registro = () => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [img, setImg] = useState("");
   let redireccion = useNavigate();
 
   async function getUsuarios() {
@@ -28,14 +29,26 @@ const Registro = () => {
     let estado = usuarios.some((usuario) => usuario.user === user);
     return estado;
   };
+
+  async function crearUsuario() {
+    let nuevoUsuario = {
+      user,
+      password,
+      email,
+      name,
+    };
+    let enviarUsuario = collection(initFirestore, "usuarios");
+    await addDoc(enviarUsuario, nuevoUsuario);
+  }
   const registrarUsuario = () => {
     if (!buscarUsuario()) {
+      crearUsuario();
       Swal.fire({
         title: "Bievenido",
         text: "Será redireccionado al panel principal",
         icon: "success",
       });
-      redireccion("/home");
+      redireccion("/");
     } else {
       Swal.fire({
         title: "Error",
@@ -67,6 +80,10 @@ const Registro = () => {
             onChange={(e) => setEmail(e.target.value)}
             type="text"
             placeholder="Email"
+          />
+          <input
+            onChange={(e) => console.log(e.target.files[0])}
+            type="file"
           />
           <button onClick={registrarUsuario} type="button">
             Registro

@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import "./Login.css";
 import { initFirestore } from "../../config/firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const Login = () => {
   const [usuarios, setUsuarios] = useState();
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
-  let redireccion = useNavigate()
+  let redireccion = useNavigate();
 
   async function getUsuarios() {
     let resultado = collection(initFirestore, "usuarios");
@@ -33,14 +33,14 @@ const Login = () => {
       Swal.fire({
         title: "Bievenido",
         text: "Será redireccionado al panel principal",
-        icon: "success"
+        icon: "success",
       });
-      redireccion('/home')
+      redireccion("/home");
     } else {
       Swal.fire({
         title: "Error",
         text: "Usuario y/o contraseña incorrecto",
-        icon: "error"
+        icon: "error",
       });
     }
   };
@@ -71,7 +71,7 @@ const Login = () => {
             login
           </button>
           <p className="message">
-            Not registered? <a href="#">Create an account</a>
+            No tienes cuenta? <Link to="/registro">Crear una cuenta</Link>
           </p>
         </form>
       </div>

@@ -60,11 +60,10 @@ const ListadoUsuarios = () => {
               <p>Nombre: {usuario.name}</p>
               <p>Usuario: {usuario.user}</p>
               <p>Correo: {usuario.email}</p>
+  
             </section>
             <div>
-              <button onClick={() => confirmar(usuario.id)}>
-                Eliminar
-              </button>
+              <button onClick={() => confirmar(usuario.id)}>Eliminar</button>
               <Link>Editar</Link>
             </div>
           </section>
