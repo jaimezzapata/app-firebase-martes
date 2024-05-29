@@ -25,9 +25,7 @@ const Registro = () => {
     getUsuarios();
   }, []);
   const buscarUsuario = () => {
-    let estado = usuarios.some(
-      (usuario) => usuario.user === user && usuario.password == password
-    );
+    let estado = usuarios.some((usuario) => usuario.user === user);
     return estado;
   };
   const registrarUsuario = () => {
