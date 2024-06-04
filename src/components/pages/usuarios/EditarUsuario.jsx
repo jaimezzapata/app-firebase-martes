@@ -88,7 +88,7 @@ const EditarUsuario = () => {
             Editar
           </button>
           <button type="button" className="message">
-            <Link to="/listado-usuarios">Cancelar</Link>
+            <Link className="cancelar" to="/listado-usuarios">Cancelar</Link>
           </button>
         </form>
       </div>
