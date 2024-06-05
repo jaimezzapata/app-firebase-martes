@@ -32,23 +32,25 @@ const Registro = () => {
     return estado;
   };
 
-  const subirImg = () => {
+  const subirImg = async (imagen) => {
     let referenciaImg = ref(initStorage, v4());
     console.log(referenciaImg);
+    await uploadBytes(referenciaImg, imagen);
   };
-  
-  subirImg();
 
   async function crearUsuario() {
+    let imgServer = await subirImg(img);
     let nuevoUsuario = {
       user,
       password,
       email,
       name,
+      imgServer,
     };
     let enviarUsuario = collection(initFirestore, "usuarios");
     await addDoc(enviarUsuario, nuevoUsuario);
   }
+
   const registrarUsuario = () => {
     if (!buscarUsuario()) {
       crearUsuario();
@@ -90,7 +92,7 @@ const Registro = () => {
             type="text"
             placeholder="Email"
           />
-          <input onChange={(e) => console.log(e.target.files[0])} type="file" />
+          <input onChange={(e) => setImg(e.target.files[0])} type="file" />
           <button onClick={registrarUsuario} type="button">
             Registro
           </button>
