@@ -60,7 +60,7 @@ const ListadoUsuarios = () => {
               <p>Nombre: {usuario.name}</p>
               <p>Usuario: {usuario.user}</p>
               <p>Correo: {usuario.email}</p>
-  
+              <img className="img" src={usuario.imgServer} alt={usuario.name} />
             </section>
             <div>
               <button onClick={() => confirmar(usuario.id)}>Eliminar</button>

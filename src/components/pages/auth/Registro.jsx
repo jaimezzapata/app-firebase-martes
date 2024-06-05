@@ -36,6 +36,8 @@ const Registro = () => {
     let referenciaImg = ref(initStorage, v4());
     console.log(referenciaImg);
     await uploadBytes(referenciaImg, imagen);
+    let urlImagen = await getDownloadURL(referenciaImg);
+    return urlImagen;
   };
 
   async function crearUsuario() {
