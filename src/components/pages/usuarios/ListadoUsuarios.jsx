@@ -64,7 +64,7 @@ const ListadoUsuarios = () => {
             </section>
             <div>
               <button onClick={() => confirmar(usuario.id)}>Eliminar</button>
-              <Link>Editar</Link>
+              <Link to={"/editar/" + usuario.id}>Editar</Link>
             </div>
           </section>
         ))}

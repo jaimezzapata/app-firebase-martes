@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "../auth/Registro.css";
-import { initFirestore } from "../../config/firebaseConfig";
-import { addDoc, collection, getDocs } from "firebase/firestore";
-import { useNavigate, Link } from "react-router-dom";
+import { initFirestore, initStorage } from "../../config/firebaseConfig";
+import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { v4 } from "uuid";
 
 const EditarUsuario = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -12,52 +14,44 @@ const EditarUsuario = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [img, setImg] = useState("");
+  let { id } = useParams();
   let redireccion = useNavigate();
 
-  async function getUsuarios() {
-    let resultado = collection(initFirestore, "usuarios");
-    let data = await getDocs(resultado);
-    /* Si es un arreglo, puedo iterarlo con los métodos de JS
-    map */
-    console.log(data.docs.map((doc) => ({ ...doc.data() })));
-    setUsuarios(data.docs.map((doc) => ({ ...doc.data() })));
+  async function getUsuarioId(id) {
+    let resultado = await getDoc(doc(initFirestore, "usuarios", id));
+    console.log(resultado);
+    setEmail(resultado.data().email);
+    setImg(resultado.data().imgServer);
+    setName(resultado.data().name);
+    setPassword(resultado.data().password);
+    setUser(resultado.data().user);
   }
+
   useEffect(() => {
-    getUsuarios();
+    getUsuarioId(id);
   }, []);
-  const buscarUsuario = () => {
-    let estado = usuarios.some((usuario) => usuario.user === user);
-    return estado;
+
+  const subirImg = async (imagen) => {
+    let referenciaImg = ref(initStorage, v4());
+    console.log(referenciaImg);
+    await uploadBytes(referenciaImg, imagen);
+    let urlImagen = await getDownloadURL(referenciaImg);
+    return urlImagen;
   };
 
-  async function crearUsuario() {
+  async function editarUsuario() {
+    let imgServer = await subirImg(img);
     let nuevoUsuario = {
       user,
       password,
       email,
       name,
+      imgServer,
     };
-    let enviarUsuario = collection(initFirestore, "usuarios");
-    await addDoc(enviarUsuario, nuevoUsuario);
+    let enviarUsuario = doc(initFirestore, "usuarios", id);
+    await updateDoc(enviarUsuario, nuevoUsuario);
+    redireccion("/listado-usuarios");
   }
-
-  const registrarUsuario = () => {
-    if (!buscarUsuario()) {
-      crearUsuario();
-      Swal.fire({
-        title: "Bievenido",
-        text: "Será redireccionado al panel principal",
-        icon: "success",
-      });
-      redireccion("/");
-    } else {
-      Swal.fire({
-        title: "Error",
-        text: "Usuario ya existe en la base de datos",
-        icon: "error",
-      });
-    }
-  };
 
   return (
     <div className="login-page">
@@ -67,28 +61,34 @@ const EditarUsuario = () => {
             onChange={(e) => setUser(e.target.value)}
             type="text"
             placeholder="username"
+            value={user}
           />
           <input
             onChange={(e) => setPassword(e.target.value)}
             type="password"
             placeholder="password"
+            value={password}
           />
           <input
             onChange={(e) => setName(e.target.value)}
             type="text"
             placeholder="Nombre"
+            value={name}
           />
           <input
             onChange={(e) => setEmail(e.target.value)}
             type="text"
             placeholder="Email"
+            value={email}
           />
-          <input onChange={(e) => console.log(e.target.files[0])} type="file" />
-          <button onClick={registrarUsuario} type="button">
+          <input onChange={(e) => setImg(e.target.files[0])} type="file" />
+          <button onClick={editarUsuario} type="button">
             Editar
           </button>
           <button type="button" className="message">
-            <Link className="cancelar" to="/listado-usuarios">Cancelar</Link>
+            <Link className="cancelar" to="/listado-usuarios">
+              Cancelar
+            </Link>
           </button>
         </form>
       </div>
